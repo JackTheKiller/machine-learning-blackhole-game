@@ -1,0 +1,102 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Black Hole Game - Machine Learning Edition :)</title>
+    <meta name="description" content="Inspired by Missile Game (https://github.com/bwhmather/missile-game)">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body class="single-player">
+    <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+    <div id="game-screen">
+        <canvas id="render-canvas" touch-action="none"></canvas>
+        <span id="fps"></span>
+    </div>
+    <div id="bot-stats"></div>
+
+    <script src="js/vendor/synaptic.js"></script>
+    <script src="js/vendor/babylon.custom.js"></script>
+    <script src="js/vendor/handlebars.js"></script>
+    <script src="js/geneticAlgorithm.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/obstacle.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/menuScene.js"></script>
+    <script src="js/gameScene.js"></script>
+    <script src="js/main.js"></script>
+
+    <script id="bots-template" type="text/x-handlebars-template">
+        <table>
+            <thead>
+                <tr class="generations">
+                    <td style="width: 50%;">i/o</td>
+                    <td style="width: 25%;">gen {{lastGeneration}}</td>
+                    <td style="width: 25%;">gen {{currentGeneration}}</td>
+                </tr>
+            </thead>
+            <tfoot class="records">
+                <tr>
+                    <td>best records</td>
+                    <td>
+                        gen {{bestGeneration}}
+                    </td>
+                    <td>
+                        📏 {{toFixed bestScore.distancePassed}}<br/>
+                        🚀 {{toFixed bestScore.speedReached}}<br/>
+                        🎯 {{bestScore.obstaclesPassed}}<br/>
+                        Fitness:<br/>
+                        {{toFixed bestScore.fitness 2}}
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                {{#each bots}}
+                <tr class="bot">
+                    <td class="main" style="border-color: {{color}}">
+                        <span class="name" style="color: {{color}}">{{body.name}} {{#if isCrashed}}(crashed){{/if}}</span><br/>
+                        <span class="inputs">
+                            {{#if target}}
+                                inputs<br/>
+                                x: {{toFixed target.absolutePosition.x 2}},
+                                y: {{toFixed target.absolutePosition.y 2}}
+                            {{/if}}
+                        </span><br/>
+                        <span class="outputs">
+                            {{#if moving}}
+                                outputs<br/>
+                                x: {{toFixed moving.x 2}},
+                                y: {{toFixed moving.y 2}}
+                            {{/if}}
+                        </span>
+                    </td>
+                    <td class="last-gen" style="border-color: {{color}}">
+                        📏 {{toFixed lastScore.distancePassed}}<br/>
+                        🚀 {{toFixed lastScore.speedReached}}<br/>
+                        🎯 {{lastScore.obstaclesPassed}}<br/>
+                        Fitness:<br/>
+                        {{toFixed lastScore.fitness 2}}
+                    </td>
+                    <td class="current-gen" style="border-color: {{color}}">
+                        📏 {{toFixed score.distancePassed}}<br/>
+                        🚀 {{toFixed score.speedReached}}<br/>
+                        🎯 {{score.obstaclesPassed}}<br/>
+                        Fitness:<br/>
+                        {{toFixed score.fitness 2}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
+</body>
+
+</html>
